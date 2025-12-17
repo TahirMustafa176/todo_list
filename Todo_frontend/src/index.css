@@ -1,0 +1,85 @@
+body{
+  --tw-bg-opacity: 1;
+  background-image: url('./assets/putplebg.jpeg');
+  /* background-color: blue; */
+}
+.logoo{
+  font-family: cursive;
+  transition: color 0.20s;
+}
+.heading{
+  font-family: cursive;
+  color: rgb(63, 1, 63);
+  font-size: 35px;
+  /* cursor: pointer; */
+}
+.logoo:hover{
+  color: violet;
+}
+.adtodo{
+  height: 38px;
+  background-color: rgb(188, 140, 252);
+  margin-top: 10px;
+  margin-left: 4px;
+  margin-bottom: 5px;
+  margin-right: 8px;
+  padding: 5px 10px;
+  transform: translateY(-100%);
+  opacity: 0;
+  animation: SlideIn 0.6s forwards;
+  transition: all 0.30s;
+}
+
+@keyframes SlideIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-out {
+  animation: slideOut 0.30s forwards;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+
+.adtodo:hover{
+  background-color: rgb(223, 205, 246);
+}
+.styled-checkbox {
+  width: 22px;
+  height: 22px;
+  appearance: none;
+  background-color: #fff;
+  border: 3px solid rgb(70, 11, 107); 
+  border-radius: 15px; 
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  vertical-align: middle;
+  margin-top: 2.5px;
+}
+
+.styled-checkbox::before {
+  content: "";
+  border-radius: 10px;
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em rgb(70, 11, 107); 
+}
+
+.styled-checkbox:checked::before {
+  transform: scale(1);
+}

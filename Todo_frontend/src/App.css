@@ -1,0 +1,136 @@
+.app-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+  min-height: 80vh;
+  backdrop-filter: blur(10px);
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.tablet-img {
+  width: 60px;
+  height: 60px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #4b0082;
+}
+
+.add-section {
+  margin-top: 20px;
+}
+
+.add-section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.input-group button {
+  background-color: #5b21b6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.input-group button:disabled {
+  background-color: #a78bfa;
+  cursor: not-allowed;
+}
+
+.filter-section {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: #999;
+  opacity: 0.4;
+  margin: 10px 0;
+}
+
+.todo-list {
+  margin-top: 15px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4f4f4;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.todo-item.slide-out {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.todo-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.todo-text span {
+  font-weight: 500;
+}
+
+.todo-text span.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.todo-buttons button {
+  background-color: #5b21b6;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.todo-buttons button:hover {
+  background-color: #4c1d95;
+}
+
+.no-todo {
+  text-align: center;
+  color: #666;
+  margin-top: 20px;
+}
