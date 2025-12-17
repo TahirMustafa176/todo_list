@@ -1,6 +1,7 @@
 version: "3.8"
 
 services:
+  # MongoDB Database Service
   mongo:
     image: mongo:latest
     container_name: todo-mongo
@@ -8,16 +9,24 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      - mongo_config:/data/configdb
     networks:
       - todo-network
+    environment:
+      - MONGO_INITDB_DATABASE=todo_list_db
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 40s
+    restart: unless-stopped
 
+  # Backend API Service
   backend:
-    build: ./TodoServer
+    build: 
+      context: ./TodoServer
+      dockerfile: Dockerfile
     container_name: todo-backend
     ports:
       - "5000:5000"
@@ -27,27 +36,45 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/todo_list_db
       - NODE_ENV=production
+      - PORT=5000
     networks:
       - todo-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5000/todos"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
+  # Frontend Service
   frontend:
-    build: ./Todo_frontend
+    build: 
+      context: ./Todo_frontend
+      dockerfile: Dockerfile
     container_name: todo-frontend
     ports:
-      - "5173:80"
+      - "80:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     environment:
       - VITE_API_URL=http://localhost:5000
     networks:
       - todo-network
     restart: unless-stopped
 
-volumes:
-  mongo_data:
-    driver: local
-
+# Docker Network Configuration
 networks:
   todo-network:
     driver: bridge
+    name: todo-app-network
+
+# Persistent Volume Configuration
+volumes:
+  mongo_data:
+    driver: local
+    name: todo-mongo-data
+  mongo_config:
+    driver: local
+    name: todo-mongo-config
