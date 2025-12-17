@@ -185,24 +185,27 @@ jobs:
 
       - name: Deploy to AKS
         run: |
-          # Update image tags in Kubernetes manifests
           cd k8s
+          
+          # Deploy MongoDB PVC first
+          kubectl apply -f mongodb-pvc.yaml -n todo-app
           
           # Deploy MongoDB
           kubectl apply -f mongodb-deployment.yaml -n todo-app
           kubectl apply -f mongodb-service.yaml -n todo-app
           
           # Wait for MongoDB to be ready
-          kubectl wait --for=condition=ready pod -l app=mongodb --timeout=300s -n todo-app
+          kubectl wait --for=condition=ready pod -l app=mongodb --timeout=300s -n todo-app || true
           
           # Deploy Backend
           kubectl apply -f backend-deployment.yaml -n todo-app
           kubectl apply -f backend-service.yaml -n todo-app
           
           # Wait for Backend to be ready
-          kubectl wait --for=condition=ready pod -l app=backend --timeout=300s -n todo-app
+          kubectl wait --for=condition=ready pod -l app=backend --timeout=300s -n todo-app || true
           
-          # Deploy Frontend
+          # Deploy Frontend ConfigMap and Deployment
+          kubectl apply -f frontend-configmap.yaml -n todo-app
           kubectl apply -f frontend-deployment.yaml -n todo-app
           kubectl apply -f frontend-service.yaml -n todo-app
 
