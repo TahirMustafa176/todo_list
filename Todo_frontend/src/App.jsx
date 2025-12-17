@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -16,12 +16,8 @@ function App() {
   // ✅ Use environment variable from .env file
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
   // 🔹 Fetch all todos
-  const fetchTodos = async () => {
+  const fetchTodos = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/todos`);
       const data = await response.json();
@@ -29,7 +25,11 @@ function App() {
     } catch (err) {
       console.error("Error fetching todos:", err);
     }
-  };
+  }, [API_BASE_URL]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, [fetchTodos]);
 
   // 🔹 Add new todo
   const handleAdd = async () => {
